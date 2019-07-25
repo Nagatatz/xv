@@ -80,7 +80,6 @@ DATABASES = {
         'USER': 'xv_rugby',
         'PASSWORD': 'xv_rugby',
         'HOST': 'mysql',
-        'PORT': '3306',
         'OPTIONS': {
             'charset': 'utf8mb4',
         },
