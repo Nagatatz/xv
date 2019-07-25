@@ -37,8 +37,8 @@ services:
       dockerfile: ./containers/django/Dockerfile
     command: uwsgi --ini /code/xv_rugby/django.ini
     environment:
-      - PROJECT_ENV=${PROJECT_ENV}
-      - WAIT_HOSTS=mysql:${MYSQL_PORT}
+      PROJECT_ENV: ${PROJECT_ENV}
+      WAIT_HOSTS: mysql:${MYSQL_PORT}
     volumes:
       - ${DJANGO_SOURCE}:/code
       - ${STATIC_FILES}:/static
