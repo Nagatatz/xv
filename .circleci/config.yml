@@ -6,7 +6,7 @@ jobs:
       - checkout
       - run:
           name: Decode dotenv file
-          command: cp .env.example .env
+          command: cp .env.testing .env
       - run:
           name: Build Docker Image
           command: docker-compose up -d --build
