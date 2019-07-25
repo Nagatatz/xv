@@ -35,10 +35,12 @@ services:
     build:
       context: ./
       dockerfile: ./containers/django/Dockerfile
-    entrypoint: ./wait-for-mysql.sh 127.0.0.1 ${MYSQL_USER} ${MYSQL_PASSWORD}
     command: uwsgi --ini /code/xv_rugby/django.ini
     environment:
       - PROJECT_ENV=${PROJECT_ENV}
+      - MYSQL_PORT=${MYSQL_PORT}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
     volumes:
       - ${DJANGO_SOURCE}:/code
       - ${STATIC_FILES}:/static
