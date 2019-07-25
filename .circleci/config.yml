@@ -13,7 +13,6 @@ jobs:
       - run:
           name: Run tests
           command: |
-            docker-compose exec mysql service mysql status
             docker-compose exec django python manage.py migrate
             docker-compose exec django python manage.py test
 
