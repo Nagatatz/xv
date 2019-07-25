@@ -5,7 +5,7 @@ jobs:
     steps:
       - checkout
       - run:
-          name: Decode dotenv file
+          name: Copy .env File
           command: cp .env.testing .env
       - run:
           name: Build Docker Image
