@@ -4,6 +4,14 @@ volumes:
   mysql:
     driver: ${VOLUMES_DRIVER}
 
+networks:
+  app_net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.20.0.0/24
+
 services:
   mysql:
     build: containers/mysql
@@ -16,6 +24,9 @@ services:
     volumes:
       - mysql:/var/lib/mysql
       - ${MY_SQL_CONF}:/etc/mysql/conf.d/my.cnf
+    networks:
+      app_net:
+        ipv4_address: 172.20.0.3
     ports:
       - "${MYSQL_PORT}:3306"
   nginx:
@@ -29,6 +40,9 @@ services:
       - ${NGINX_LOG}:/var/log/nginx
     depends_on:
       - django
+    networks:
+      app_net:
+        ipv4_address: 172.20.0.1
   django:
     build:
       context: ./
@@ -43,3 +57,6 @@ services:
       - "8001"
     depends_on:
       - mysql
+    networks:
+      app_net:
+        ipv4_address: 172.20.0.2
