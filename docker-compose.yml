@@ -8,6 +8,8 @@ services:
   mysql:
     build: containers/mysql
     environment:
+      - MYSQL_HOST=localhost
+      - MYSQL_PORT=${MYSQL_PORT
       - MYSQL_DATABASE=${MYSQL_DATABASE}
       - MYSQL_USER=${MYSQL_USER}
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
