@@ -79,7 +79,8 @@ DATABASES = {
         'NAME': 'xv_rugby',
         'USER': 'xv_rugby',
         'PASSWORD': 'xv_rugby',
-        'HOST': 'mysql',
+        'HOST': '172.20.0.3',
+        'PORT': '3306',
         'OPTIONS': {
             'charset': 'utf8mb4',
         },
