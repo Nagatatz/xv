@@ -1,9 +1,6 @@
 FROM python:3.7
 
 ARG PROJECT_ENV
-ARG MYSQL_PORT
-ARG MYSQL_USER
-ARG MYSQL_PASSWORD
 
 ENV PROJECT_ENV=${PROJECT_ENV} \
   PYTHONFAULTHANDLER=1 \
@@ -27,5 +24,7 @@ RUN poetry config settings.virtualenvs.create false \
 
 COPY . /code/
 
-COPY containers/django/wait-for-mysql.sh /code/wait-for-mysql.sh
-ENTRYPOINT ["sh", "/docker-entrypoint.sh", "127.0.0.1", "$MYSQL_PORT", "$MYSQL_USER", "$MYSQL_PASSWORD"]
+ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.2.1/wait /wait
+RUN chmod +x /wait
+
+CMD /wait && uwsgi --ini /code/xv_rugby/django.ini
