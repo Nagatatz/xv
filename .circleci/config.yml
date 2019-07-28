@@ -11,6 +11,12 @@ jobs:
           name: Build Docker Image
           command: docker-compose up -d --build
       - run:
+          name: Stop Docker Image
+          command: docker-compose stop
+      - run:
+          name: Up Docker Image
+          command: docker-compose up -d
+      - run:
           name: Run tests
           command: |
             docker-compose exec django python manage.py migrate

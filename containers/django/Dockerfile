@@ -23,8 +23,3 @@ RUN poetry config settings.virtualenvs.create false \
   && poetry install $(test "$PROJECT_ENV" == production && echo "--no-dev") --no-interaction --no-ansi
 
 COPY . /code/
-
-ADD https://github.com/ufoscout/docker-compose-wait/releases/download/2.2.1/wait /wait
-RUN chmod +x /wait
-
-CMD /wait && uwsgi --ini /code/xv_rugby/django.ini
