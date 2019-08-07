@@ -8,6 +8,8 @@ services:
   mysql:
     build: containers/mysql
     environment:
+      - MYSQL_HOST=localhost
+      - MYSQL_PORT=${MYSQL_PORT}
       - MYSQL_DATABASE=${MYSQL_DATABASE}
       - MYSQL_USER=${MYSQL_USER}
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
@@ -35,11 +37,14 @@ services:
       dockerfile: ./containers/django/Dockerfile
     command: uwsgi --ini /code/xv_rugby/django.ini
     environment:
-      - PROJECT_ENV=${PROJECT_ENV}
+      PROJECT_ENV: ${PROJECT_ENV}
+      WAIT_HOSTS: mysql:${MYSQL_PORT}
     volumes:
       - ${DJANGO_SOURCE}:/code
       - ${STATIC_FILES}:/static
     expose:
       - "8001"
     depends_on:
+      - mysql
+    links:
       - mysql
