@@ -91,7 +91,7 @@ class PlayerProfile(BaseModel):
 
 class Member(BaseModel):
     """
-    チームの人員
+    チーム人員
     """
 
     family_name = models.CharField(max_length=35, verbose_name='姓')
@@ -189,7 +189,7 @@ class StaffOnMatch(BaseModel):
 
 class PlayerOnMatch(BaseModel):
     """
-    試合参加プレイヤー
+    試合登録プレイヤー
     """
 
     team = models.ForeignKey(
@@ -256,7 +256,7 @@ class Half(BaseModel):
 
     match = models.ForeignKey(Match, on_delete=models.CASCADE, verbose_name='試合')
     duration = models.DurationField(verbose_name='時間')
-    number = models.IntegerField()
+    number = models.IntegerField(verbose_name='序数')
 
     class Meta:
         unique_together = ('match', 'number')
