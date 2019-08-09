@@ -61,7 +61,9 @@ class Member(BaseModel):
     family_name = models.CharField(max_length=35, verbose_name='姓')
     first_name = models.CharField(max_length=35, verbose_name='名')
     birthday = models.DateField(null=True, verbose_name='誕生日')
-    in_our_team = models.Field()
+    team_group = models.ForeignKey(
+        TeamGroup, on_delete=models.SET_NULL, null=True, verbose_name='所属チームグループ'
+    )
     player_profile = models.OneToOneField(
         PlayerProfile, on_delete=models.CASCADE, null=True, verbose_name='選手プロフィール'
     )
