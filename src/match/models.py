@@ -4,6 +4,15 @@ from django.utils import timezone
 from enum import Enum
 
 from common.models import BaseModel, BaseManager
+from master.models import (
+    PlayerPosition,
+    StaffPosition,
+    MatchType,
+    MatchSwitchEventType,
+    ScoringMethod,
+    FoulMethod,
+)
+from member.models import TeamGroup, Member
 
 
 class HeldManager(BaseManager):
@@ -12,138 +21,6 @@ class HeldManager(BaseManager):
 
     def held(self, **kwargs):
         return self.filter(held_datetime__lte=timezone.now(), **kwargs)
-
-
-class PlayerPosition(BaseModel):
-    """
-    ポジション
-    """
-
-    number = models.IntegerField(verbose_name='背番号')
-    name = models.CharField(max_length=35, verbose_name='ポジション名')
-    is_front_row = models.BooleanField(verbose_name='フロントロー')
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        verbose_name_plural = 'ポジション'
-        db_table = 'rugby_player_position'
-
-
-class StaffPosition(BaseModel):
-    """
-    役職
-    """
-
-    name = models.CharField(max_length=35, verbose_name='役職名')
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        verbose_name_plural = '役職'
-        db_table = 'rugby_staff_position'
-
-
-class TeamGroup(BaseModel):
-    """
-    チームグループ
-    """
-
-    name = models.CharField(max_length=35, verbose_name='チームグループ名')
-    is_my_team = models.BooleanField(verbose_name='自チームグループか')
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        verbose_name_plural = 'チームグループ'
-        db_table = 'rugby_team_group'
-
-
-class Team(BaseModel):
-    """
-    チーム
-    """
-
-    name = models.CharField(max_length=35, verbose_name='チーム名')
-    team_group = models.ForeignKey(
-        TeamGroup, on_delete=models.PROTECT, verbose_name='チームグループ'
-    )
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        verbose_name_plural = 'チーム'
-        db_table = 'rugby_team'
-
-
-class PlayerProfile(BaseModel):
-    """
-    選手プロフィール
-    """
-
-    height = models.DecimalField(verbose_name='身長', max_digits=4, decimal_places=1)
-    weight = models.DecimalField(verbose_name='体重', max_digits=4, decimal_places=1)
-    player_position = models.ManyToManyField(PlayerPosition, 'ポジション')
-
-    class Meta:
-        verbose_name_plural = '選手プロフィール'
-        db_table = 'rugby_player_profile'
-
-
-class Member(BaseModel):
-    """
-    チーム人員
-    """
-
-    family_name = models.CharField(max_length=35, verbose_name='姓')
-    first_name = models.CharField(max_length=35, verbose_name='名')
-    birthday = models.DateField(null=True, verbose_name='誕生日')
-    in_our_team = models.Field()
-    player_profile = models.OneToOneField(
-        PlayerProfile, on_delete=models.CASCADE, null=True, verbose_name='選手プロフィール'
-    )
-    staff_position = models.ManyToManyField(StaffPosition, '役職')
-
-    def __str__(self):
-        return f'{self.family_name} {self.first_name}'
-
-    class Meta:
-        verbose_name_plural = 'チーム人員'
-        db_table = 'rugby_member'
-
-
-class MatchType(BaseModel):
-    """
-    試合形式
-    """
-
-    name = models.CharField(max_length=35, verbose_name='試合形式名称')
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        verbose_name_plural = '試合形式'
-        db_table = 'rugby_match_type'
-
-
-class MatchSwitchEventType(BaseModel):
-    """
-    試合中交替/入替イベント種別
-    """
-
-    name = models.CharField(max_length=35, verbose_name='試合中交替/入替イベント名称')
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        verbose_name_plural = '試合中交替/入替イベント種別'
-        db_table = 'rugby_match_switch_event_type'
 
 
 class TeamOnMatch(BaseModel):
@@ -348,22 +225,6 @@ class MatchSwitchEvent(MatchEvent):
         db_table = 'rugby_match_switch_event'
 
 
-class ScoringMethod(BaseModel):
-    """
-    得点手法
-    """
-
-    name = models.CharField(max_length=35, verbose_name='得点手法名')
-    point = models.IntegerField(verbose_name='得点')
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        verbose_name_plural = '得点手法'
-        db_table = 'rugby_scoring_method'
-
-
 class MatchScoringEvent(MatchEvent):
     """
     試合中得点イベント
@@ -380,22 +241,6 @@ class MatchScoringEvent(MatchEvent):
     class Meta:
         verbose_name_plural = '試合中得点イベント'
         db_table = 'rugby_match_scoring_event'
-
-
-class FoulMethod(BaseModel):
-    """
-    反則
-    """
-
-    name = models.CharField(max_length=35, verbose_name='反則名')
-    is_penalty = models.BooleanField(verbose_name='重度な反則か')
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        verbose_name_plural = '反則'
-        db_table = 'rugby_foul_method'
 
 
 class MatchFoulEvent(MatchEvent):
