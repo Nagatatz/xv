@@ -67,7 +67,7 @@ class Member(BaseModel):
     player_profile = models.OneToOneField(
         PlayerProfile, on_delete=models.CASCADE, null=True, verbose_name='選手プロフィール'
     )
-    staff_position = models.ManyToManyField(StaffPosition, '役職')
+    staff_position = models.ManyToManyField(StaffPosition, verbose_name='役職')
 
     def __str__(self):
         return f'{self.family_name} {self.first_name}'
