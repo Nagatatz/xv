@@ -27,6 +27,7 @@ class PlayerPosition(BaseModel):
         return self.name
 
     class Meta:
+        verbose_name_plural = 'ポジション'
         db_table = 'rugby_player_position'
 
 
@@ -41,6 +42,7 @@ class StaffPosition(BaseModel):
         return self.name
 
     class Meta:
+        verbose_name_plural = '役職'
         db_table = 'rugby_staff_position'
 
 
@@ -56,6 +58,7 @@ class TeamGroup(BaseModel):
         return self.name
 
     class Meta:
+        verbose_name_plural = 'チームグループ'
         db_table = 'rugby_team_group'
 
 
@@ -73,6 +76,7 @@ class Team(BaseModel):
         return self.name
 
     class Meta:
+        verbose_name_plural = 'チーム'
         db_table = 'rugby_team'
 
 
@@ -86,6 +90,7 @@ class PlayerProfile(BaseModel):
     player_position = models.ManyToManyField(PlayerPosition, 'ポジション')
 
     class Meta:
+        verbose_name_plural = '選手プロフィール'
         db_table = 'rugby_player_profile'
 
 
@@ -107,6 +112,7 @@ class Member(BaseModel):
         return f'{self.family_name} {self.first_name}'
 
     class Meta:
+        verbose_name_plural = 'チーム人員'
         db_table = 'rugby_member'
 
 
@@ -121,6 +127,7 @@ class MatchType(BaseModel):
         return self.name
 
     class Meta:
+        verbose_name_plural = '試合形式'
         db_table = 'rugby_match_type'
 
 
@@ -135,6 +142,7 @@ class MatchSwitchEventType(BaseModel):
         return self.name
 
     class Meta:
+        verbose_name_plural = '試合中交替/入替イベント種別'
         db_table = 'rugby_match_switch_event_type'
 
 
@@ -152,6 +160,7 @@ class TeamOnMatch(BaseModel):
         return self.name
 
     class Meta:
+        verbose_name_plural = '試合参加チーム'
         db_table = 'rugby_team_on_match'
 
 
@@ -166,6 +175,7 @@ class FieldStaff(BaseModel):
         return self.name
 
     class Meta:
+        verbose_name_plural = 'フィールドスタッフ'
         db_table = 'rugby_field_staff'
 
 
@@ -183,6 +193,7 @@ class StaffOnMatch(BaseModel):
     member = models.ForeignKey(Member, on_delete=models.PROTECT, verbose_name='メンバー')
 
     class Meta:
+        verbose_name_plural = '試合参加スタッフ'
         unique_together = ('team', 'member')
         db_table = 'rugby_staff_on_match'
 
@@ -199,6 +210,7 @@ class PlayerOnMatch(BaseModel):
     member = models.ForeignKey(Member, on_delete=models.PROTECT, verbose_name='メンバー')
 
     class Meta:
+        verbose_name_plural = '試合登録プレイヤー'
         unique_together = (('team', 'position_number'), ('team', 'member'))
         db_table = 'rugby_player_on_match'
 
@@ -246,6 +258,7 @@ class Match(BaseModel):
         return f'{self.held_datetime} {self.match_type}'
 
     class Meta:
+        verbose_name_plural = '試合'
         db_table = 'rugby_match'
 
 
@@ -259,6 +272,7 @@ class Half(BaseModel):
     number = models.IntegerField(verbose_name='序数')
 
     class Meta:
+        verbose_name_plural = 'ハーフ'
         unique_together = ('match', 'number')
         db_table = 'rugby_half'
 
@@ -272,6 +286,7 @@ class MatchEvent(BaseModel):
     duration = models.DurationField(verbose_name='経過時間')
 
     class Meta:
+        verbose_name_plural = '試合イベント'
         abstract = True
         db_table = 'rugby_match_event'
 
@@ -287,6 +302,7 @@ class PatternType(MatchEvent):
         return self.name
 
     class Meta:
+        verbose_name_plural = '試合イベントパターン'
         db_table = 'rugby_pattern_type'
 
 
@@ -300,6 +316,7 @@ class MatchPatternedEvent(MatchEvent):
     )
 
     class Meta:
+        verbose_name_plural = '通常試合イベント'
         db_table = 'rugby_match_patterned_event'
 
 
@@ -327,6 +344,7 @@ class MatchSwitchEvent(MatchEvent):
     )
 
     class Meta:
+        verbose_name_plural = '試合中交替/入替イベント'
         db_table = 'rugby_match_switch_event'
 
 
@@ -342,6 +360,7 @@ class ScoringMethod(BaseModel):
         return self.name
 
     class Meta:
+        verbose_name_plural = '得点手法'
         db_table = 'rugby_scoring_method'
 
 
@@ -359,6 +378,7 @@ class MatchScoringEvent(MatchEvent):
     is_no_kick = models.BooleanField(verbose_name='キック蹴らず')
 
     class Meta:
+        verbose_name_plural = '試合中得点イベント'
         db_table = 'rugby_match_scoring_event'
 
 
@@ -374,6 +394,7 @@ class FoulMethod(BaseModel):
         return self.name
 
     class Meta:
+        verbose_name_plural = '反則'
         db_table = 'rugby_foul_method'
 
 
@@ -409,4 +430,5 @@ class MatchFoulEvent(MatchEvent):
     )
 
     class Meta:
+        verbose_name_plural = '試合中反則イベント'
         db_table = 'rugby_match_foul_event'
