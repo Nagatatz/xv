@@ -50,6 +50,21 @@ class MatchType(BaseModel):
         db_table = 'rugby_match_type'
 
 
+class PatternType(BaseModel):
+    """
+    試合イベントパターン
+    """
+
+    name = models.CharField(max_length=35, verbose_name='イベント名')
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name_plural = '試合イベントパターン'
+        db_table = 'rugby_pattern_type'
+
+
 class MatchSwitchEventType(BaseModel):
     """
     試合中交替/入替イベント種別

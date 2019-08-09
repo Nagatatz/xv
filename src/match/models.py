@@ -8,6 +8,7 @@ from master.models import (
     PlayerPosition,
     StaffPosition,
     MatchType,
+    PatternType,
     MatchSwitchEventType,
     ScoringMethod,
     FoulMethod,
@@ -166,21 +167,6 @@ class MatchEvent(BaseModel):
         verbose_name_plural = '試合イベント'
         abstract = True
         db_table = 'rugby_match_event'
-
-
-class PatternType(MatchEvent):
-    """
-    試合イベントパターン
-    """
-
-    name = models.CharField(max_length=35, verbose_name='イベント名')
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        verbose_name_plural = '試合イベントパターン'
-        db_table = 'rugby_pattern_type'
 
 
 class MatchPatternedEvent(MatchEvent):
