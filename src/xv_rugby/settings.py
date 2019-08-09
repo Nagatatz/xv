@@ -31,9 +31,9 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'master',
-    'member',
-    'match',
+    'master.apps.MasterConfig',
+    'member.apps.MemberConfig',
+    'match.apps.MatchConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
