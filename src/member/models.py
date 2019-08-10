@@ -46,11 +46,11 @@ class Member(BaseModel):
 
     family_name = models.CharField(max_length=35, verbose_name='姓')
     first_name = models.CharField(max_length=35, verbose_name='名')
-    birthday = models.DateField(null=True, verbose_name='誕生日')
+    birthday = models.DateField(blank=True, null=True, verbose_name='誕生日')
     team_group = models.ForeignKey(
-        TeamGroup, on_delete=models.SET_NULL, null=True, verbose_name='所属チームグループ'
+        TeamGroup, on_delete=models.SET_NULL, blank=True, null=True, verbose_name='所属チームグループ'
     )
-    staff_position = models.ManyToManyField(StaffPosition, verbose_name='役職')
+    staff_position = models.ManyToManyField(StaffPosition, blank=True, verbose_name='役職')
 
     def __str__(self):
         return f'{self.family_name} {self.first_name}'
@@ -65,8 +65,8 @@ class PlayerProfile(BaseModel):
     選手プロフィール
     """
 
-    member = models.ForeignKey(
-        Member, null=True, unique=True, on_delete=models.CASCADE, verbose_name='人員'
+    member = models.OneToOneField(
+        Member, on_delete=models.CASCADE, verbose_name='人員'
     )
     height = models.DecimalField(verbose_name='身長', max_digits=4, decimal_places=1)
     weight = models.DecimalField(verbose_name='体重', max_digits=4, decimal_places=1)

@@ -35,6 +35,21 @@ class StaffPosition(BaseModel):
         db_table = 'rugby_staff_position'
 
 
+class FieldStaff(BaseModel):
+    """
+    フィールドスタッフ職
+    """
+
+    name = models.CharField(max_length=35, verbose_name='フィールドスタッフ職')
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name_plural = 'フィールドスタッフ'
+        db_table = 'rugby_field_staff'
+
+
 class MatchType(BaseModel):
     """
     試合形式
@@ -110,3 +125,4 @@ class FoulMethod(BaseModel):
     class Meta:
         verbose_name_plural = '反則'
         db_table = 'rugby_foul_method'
+

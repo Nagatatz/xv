@@ -7,6 +7,7 @@ from common.models import BaseModel, BaseManager
 from master.models import (
     PlayerPosition,
     StaffPosition,
+    FieldStaff,
     MatchType,
     PatternType,
     MatchSwitchEventType,
@@ -24,15 +25,55 @@ class HeldManager(BaseManager):
         return self.filter(held_datetime__lte=timezone.now(), **kwargs)
 
 
+class Match(BaseModel):
+    """
+    試合
+    """
+
+    held_datetime = models.DateTimeField(verbose_name='開催日時')
+    match_type = models.ForeignKey(
+        MatchType, on_delete=models.PROTECT, verbose_name='試合種別'
+    )
+    referee = models.ForeignKey(
+        Member,
+        null=True,
+        blank=True,
+        on_delete=models.PROTECT,
+        verbose_name='レフリー',
+        related_name='match_referee',
+    )
+    assistant_referee = models.ManyToManyField(
+        Member, blank=True, verbose_name='アシスタントレフリー', related_name='match_assistant_referee'
+    )
+    touch_judge = models.ManyToManyField(
+        Member, blank=True, verbose_name='タッチジャッジ', related_name='match_touch_judge'
+    )
+
+    objects = HeldManager()
+    all_objects = HeldManager(alive_only=False)
+
+    def has_been_held(self):
+        return self.held_datetime < timezone.now()
+
+    def __str__(self):
+        return f'{self.held_datetime} {self.match_type}'
+
+    class Meta:
+        verbose_name_plural = '試合'
+        db_table = 'rugby_match'
+
+
 class TeamOnMatch(BaseModel):
     """
     試合参加チーム
     """
 
+    match = models.ForeignKey(Match, on_delete=models.CASCADE, verbose_name='試合')
     name = models.CharField(max_length=35, verbose_name='チーム名')
     team_group = models.ForeignKey(
         TeamGroup, null=True, on_delete=models.SET_NULL, verbose_name='チームグループ'
     )
+    display_first = models.BooleanField(null=False, verbose_name='優先表示')
 
     def __str__(self):
         return self.name
@@ -40,21 +81,7 @@ class TeamOnMatch(BaseModel):
     class Meta:
         verbose_name_plural = '試合参加チーム'
         db_table = 'rugby_team_on_match'
-
-
-class FieldStaff(BaseModel):
-    """
-    フィールドスタッフ
-    """
-
-    name = models.CharField(max_length=35, verbose_name='フィールドスタッフ職')
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        verbose_name_plural = 'フィールドスタッフ'
-        db_table = 'rugby_field_staff'
+        unique_together = ('match', 'display_first')
 
 
 class StaffOnMatch(BaseModel):
@@ -93,53 +120,6 @@ class PlayerOnMatch(BaseModel):
         db_table = 'rugby_player_on_match'
 
 
-class Match(BaseModel):
-    """
-    試合
-    """
-
-    held_datetime = models.DateTimeField()
-    match_type = models.ForeignKey(
-        MatchType, on_delete=models.PROTECT, verbose_name='試合種別'
-    )
-    referee = models.ForeignKey(
-        Member,
-        on_delete=models.PROTECT,
-        verbose_name='レフリー',
-        related_name='match_referee',
-    )
-    assistant_referee = models.ManyToManyField(
-        Member, verbose_name='アシスタントレフリー', related_name='match_assistant_referee'
-    )
-    touch_judge = models.ManyToManyField(
-        Member, verbose_name='タッチジャッジ', related_name='match_touch_judge'
-    )
-    left_team = models.ForeignKey(
-        TeamOnMatch,
-        null=True,
-        on_delete=models.SET_NULL,
-        verbose_name='左チーム',
-        related_name='match_left',
-    )
-    right_team = models.ForeignKey(
-        TeamOnMatch,
-        null=True,
-        on_delete=models.SET_NULL,
-        verbose_name='右チーム',
-        related_name='match_right',
-    )
-
-    objects = HeldManager()
-    all_objects = HeldManager(alive_only=False)
-
-    def __str__(self):
-        return f'{self.held_datetime} {self.match_type}'
-
-    class Meta:
-        verbose_name_plural = '試合'
-        db_table = 'rugby_match'
-
-
 class Half(BaseModel):
     """
     ハーフ
@@ -166,7 +146,6 @@ class MatchEvent(BaseModel):
     class Meta:
         verbose_name_plural = '試合イベント'
         abstract = True
-        db_table = 'rugby_match_event'
 
 
 class MatchPatternedEvent(MatchEvent):
@@ -175,7 +154,7 @@ class MatchPatternedEvent(MatchEvent):
     """
 
     event_type = models.ForeignKey(
-        PatternType, on_delete=models.PROTECT, verbose_name='試合中交替/入替イベント種別'
+        PatternType, on_delete=models.PROTECT, verbose_name='試合イベント種別'
     )
 
     class Meta:
@@ -194,6 +173,7 @@ class MatchSwitchEvent(MatchEvent):
     out_member = models.ForeignKey(
         PlayerOnMatch,
         on_delete=models.PROTECT,
+        blank=True,
         null=True,
         verbose_name='退場メンバー',
         related_name='match_out',
@@ -201,6 +181,7 @@ class MatchSwitchEvent(MatchEvent):
     in_member = models.ForeignKey(
         PlayerOnMatch,
         on_delete=models.PROTECT,
+        blank=True,
         null=True,
         verbose_name='出場メンバー',
         related_name='match_in',
@@ -251,11 +232,12 @@ class MatchFoulEvent(MatchEvent):
     )
     card_choice = models.CharField(max_length=6, choices=[x.value for x in CARD])
     out_event = models.ForeignKey(
-        MatchSwitchEvent, on_delete=models.PROTECT, null=True, verbose_name='退場イベント'
+        MatchSwitchEvent, on_delete=models.PROTECT, blank=True, null=True, verbose_name='退場イベント'
     )
     penalty_try = models.ForeignKey(
         MatchScoringEvent,
         on_delete=models.PROTECT,
+        blank=True,
         null=True,
         verbose_name='ペナルティトライイベント',
     )
