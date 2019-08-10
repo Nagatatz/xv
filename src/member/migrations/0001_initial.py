@@ -8,69 +8,163 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-        ('master', '0001_initial'),
-    ]
+    dependencies = [('master', '0001_initial')]
 
     operations = [
         migrations.CreateModel(
             name='Member',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='作成日時')),
-                ('updated_at', models.DateTimeField(auto_now=True, verbose_name='更新日時')),
-                ('deleted_at', models.DateTimeField(blank=True, null=True, verbose_name='削除日時')),
+                (
+                    'id',
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
+                (
+                    'created_at',
+                    models.DateTimeField(auto_now_add=True, verbose_name='作成日時'),
+                ),
+                (
+                    'updated_at',
+                    models.DateTimeField(auto_now=True, verbose_name='更新日時'),
+                ),
+                (
+                    'deleted_at',
+                    models.DateTimeField(blank=True, null=True, verbose_name='削除日時'),
+                ),
                 ('family_name', models.CharField(max_length=35, verbose_name='姓')),
                 ('first_name', models.CharField(max_length=35, verbose_name='名')),
-                ('birthday', models.DateField(blank=True, null=True, verbose_name='誕生日')),
-                ('staff_position', models.ManyToManyField(blank=True, to='master.StaffPosition', verbose_name='役職')),
+                (
+                    'birthday',
+                    models.DateField(blank=True, null=True, verbose_name='誕生日'),
+                ),
+                (
+                    'staff_position',
+                    models.ManyToManyField(
+                        blank=True, to='master.StaffPosition', verbose_name='役職'
+                    ),
+                ),
             ],
-            options={
-                'verbose_name_plural': 'チーム人員',
-                'db_table': 'rugby_member',
-            },
+            options={'verbose_name_plural': 'チーム人員', 'db_table': 'rugby_member'},
         ),
         migrations.CreateModel(
             name='TeamGroup',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='作成日時')),
-                ('updated_at', models.DateTimeField(auto_now=True, verbose_name='更新日時')),
-                ('deleted_at', models.DateTimeField(blank=True, null=True, verbose_name='削除日時')),
+                (
+                    'id',
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
+                (
+                    'created_at',
+                    models.DateTimeField(auto_now_add=True, verbose_name='作成日時'),
+                ),
+                (
+                    'updated_at',
+                    models.DateTimeField(auto_now=True, verbose_name='更新日時'),
+                ),
+                (
+                    'deleted_at',
+                    models.DateTimeField(blank=True, null=True, verbose_name='削除日時'),
+                ),
                 ('name', models.CharField(max_length=35, verbose_name='チームグループ名')),
                 ('is_my_team', models.BooleanField(verbose_name='自チームグループか')),
             ],
-            options={
-                'verbose_name_plural': 'チームグループ',
-                'db_table': 'rugby_team_group',
-            },
+            options={'verbose_name_plural': 'チームグループ', 'db_table': 'rugby_team_group'},
         ),
         migrations.CreateModel(
             name='Team',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='作成日時')),
-                ('updated_at', models.DateTimeField(auto_now=True, verbose_name='更新日時')),
-                ('deleted_at', models.DateTimeField(blank=True, null=True, verbose_name='削除日時')),
+                (
+                    'id',
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
+                (
+                    'created_at',
+                    models.DateTimeField(auto_now_add=True, verbose_name='作成日時'),
+                ),
+                (
+                    'updated_at',
+                    models.DateTimeField(auto_now=True, verbose_name='更新日時'),
+                ),
+                (
+                    'deleted_at',
+                    models.DateTimeField(blank=True, null=True, verbose_name='削除日時'),
+                ),
                 ('name', models.CharField(max_length=35, verbose_name='チーム名')),
-                ('team_group', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='member.TeamGroup', verbose_name='チームグループ')),
+                (
+                    'team_group',
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to='member.TeamGroup',
+                        verbose_name='チームグループ',
+                    ),
+                ),
             ],
-            options={
-                'verbose_name_plural': 'チーム',
-                'db_table': 'rugby_team',
-            },
+            options={'verbose_name_plural': 'チーム', 'db_table': 'rugby_team'},
         ),
         migrations.CreateModel(
             name='PlayerProfile',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='作成日時')),
-                ('updated_at', models.DateTimeField(auto_now=True, verbose_name='更新日時')),
-                ('deleted_at', models.DateTimeField(blank=True, null=True, verbose_name='削除日時')),
-                ('height', models.DecimalField(decimal_places=1, max_digits=4, verbose_name='身長')),
-                ('weight', models.DecimalField(decimal_places=1, max_digits=4, verbose_name='体重')),
-                ('member', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to='member.Member', verbose_name='人員')),
-                ('player_position', models.ManyToManyField(to='master.PlayerPosition', verbose_name='ポジション')),
+                (
+                    'id',
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
+                (
+                    'created_at',
+                    models.DateTimeField(auto_now_add=True, verbose_name='作成日時'),
+                ),
+                (
+                    'updated_at',
+                    models.DateTimeField(auto_now=True, verbose_name='更新日時'),
+                ),
+                (
+                    'deleted_at',
+                    models.DateTimeField(blank=True, null=True, verbose_name='削除日時'),
+                ),
+                (
+                    'height',
+                    models.DecimalField(
+                        decimal_places=1, max_digits=4, verbose_name='身長'
+                    ),
+                ),
+                (
+                    'weight',
+                    models.DecimalField(
+                        decimal_places=1, max_digits=4, verbose_name='体重'
+                    ),
+                ),
+                (
+                    'member',
+                    models.OneToOneField(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to='member.Member',
+                        verbose_name='人員',
+                    ),
+                ),
+                (
+                    'player_position',
+                    models.ManyToManyField(
+                        to='master.PlayerPosition', verbose_name='ポジション'
+                    ),
+                ),
             ],
             options={
                 'verbose_name_plural': '選手プロフィール',
@@ -80,6 +174,12 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='member',
             name='team_group',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='member.TeamGroup', verbose_name='所属チームグループ'),
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                to='member.TeamGroup',
+                verbose_name='所属チームグループ',
+            ),
         ),
     ]

@@ -43,7 +43,10 @@ class Match(BaseModel):
         related_name='match_referee',
     )
     assistant_referee = models.ManyToManyField(
-        Member, blank=True, verbose_name='アシスタントレフリー', related_name='match_assistant_referee'
+        Member,
+        blank=True,
+        verbose_name='アシスタントレフリー',
+        related_name='match_assistant_referee',
     )
     touch_judge = models.ManyToManyField(
         Member, blank=True, verbose_name='タッチジャッジ', related_name='match_touch_judge'
@@ -232,7 +235,11 @@ class MatchFoulEvent(MatchEvent):
     )
     card_choice = models.CharField(max_length=6, choices=[x.value for x in CARD])
     out_event = models.ForeignKey(
-        MatchSwitchEvent, on_delete=models.PROTECT, blank=True, null=True, verbose_name='退場イベント'
+        MatchSwitchEvent,
+        on_delete=models.PROTECT,
+        blank=True,
+        null=True,
+        verbose_name='退場イベント',
     )
     penalty_try = models.ForeignKey(
         MatchScoringEvent,

@@ -101,6 +101,7 @@ class ScoringMethod(BaseModel):
     """
 
     name = models.CharField(max_length=35, verbose_name='得点手法名')
+    short_letter = models.CharField(max_length=2, verbose_name='得点コード')
     point = models.IntegerField(verbose_name='得点')
 
     def __str__(self):

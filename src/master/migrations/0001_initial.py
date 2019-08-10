@@ -7,17 +7,33 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
             name='FieldStaff',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='作成日時')),
-                ('updated_at', models.DateTimeField(auto_now=True, verbose_name='更新日時')),
-                ('deleted_at', models.DateTimeField(blank=True, null=True, verbose_name='削除日時')),
+                (
+                    'id',
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
+                (
+                    'created_at',
+                    models.DateTimeField(auto_now_add=True, verbose_name='作成日時'),
+                ),
+                (
+                    'updated_at',
+                    models.DateTimeField(auto_now=True, verbose_name='更新日時'),
+                ),
+                (
+                    'deleted_at',
+                    models.DateTimeField(blank=True, null=True, verbose_name='削除日時'),
+                ),
                 ('name', models.CharField(max_length=35, verbose_name='フィールドスタッフ職')),
             ],
             options={
@@ -28,26 +44,60 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='FoulMethod',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='作成日時')),
-                ('updated_at', models.DateTimeField(auto_now=True, verbose_name='更新日時')),
-                ('deleted_at', models.DateTimeField(blank=True, null=True, verbose_name='削除日時')),
+                (
+                    'id',
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
+                (
+                    'created_at',
+                    models.DateTimeField(auto_now_add=True, verbose_name='作成日時'),
+                ),
+                (
+                    'updated_at',
+                    models.DateTimeField(auto_now=True, verbose_name='更新日時'),
+                ),
+                (
+                    'deleted_at',
+                    models.DateTimeField(blank=True, null=True, verbose_name='削除日時'),
+                ),
                 ('name', models.CharField(max_length=35, verbose_name='反則名')),
                 ('is_penalty', models.BooleanField(verbose_name='重度な反則か')),
             ],
-            options={
-                'verbose_name_plural': '反則',
-                'db_table': 'rugby_foul_method',
-            },
+            options={'verbose_name_plural': '反則', 'db_table': 'rugby_foul_method'},
         ),
         migrations.CreateModel(
             name='MatchSwitchEventType',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='作成日時')),
-                ('updated_at', models.DateTimeField(auto_now=True, verbose_name='更新日時')),
-                ('deleted_at', models.DateTimeField(blank=True, null=True, verbose_name='削除日時')),
-                ('name', models.CharField(max_length=35, verbose_name='試合中交替/入替イベント名称')),
+                (
+                    'id',
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
+                (
+                    'created_at',
+                    models.DateTimeField(auto_now_add=True, verbose_name='作成日時'),
+                ),
+                (
+                    'updated_at',
+                    models.DateTimeField(auto_now=True, verbose_name='更新日時'),
+                ),
+                (
+                    'deleted_at',
+                    models.DateTimeField(blank=True, null=True, verbose_name='削除日時'),
+                ),
+                (
+                    'name',
+                    models.CharField(max_length=35, verbose_name='試合中交替/入替イベント名称'),
+                ),
             ],
             options={
                 'verbose_name_plural': '試合中交替/入替イベント種別',
@@ -57,24 +107,55 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='MatchType',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='作成日時')),
-                ('updated_at', models.DateTimeField(auto_now=True, verbose_name='更新日時')),
-                ('deleted_at', models.DateTimeField(blank=True, null=True, verbose_name='削除日時')),
+                (
+                    'id',
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
+                (
+                    'created_at',
+                    models.DateTimeField(auto_now_add=True, verbose_name='作成日時'),
+                ),
+                (
+                    'updated_at',
+                    models.DateTimeField(auto_now=True, verbose_name='更新日時'),
+                ),
+                (
+                    'deleted_at',
+                    models.DateTimeField(blank=True, null=True, verbose_name='削除日時'),
+                ),
                 ('name', models.CharField(max_length=35, verbose_name='試合形式名称')),
             ],
-            options={
-                'verbose_name_plural': '試合形式',
-                'db_table': 'rugby_match_type',
-            },
+            options={'verbose_name_plural': '試合形式', 'db_table': 'rugby_match_type'},
         ),
         migrations.CreateModel(
             name='PatternType',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='作成日時')),
-                ('updated_at', models.DateTimeField(auto_now=True, verbose_name='更新日時')),
-                ('deleted_at', models.DateTimeField(blank=True, null=True, verbose_name='削除日時')),
+                (
+                    'id',
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
+                (
+                    'created_at',
+                    models.DateTimeField(auto_now_add=True, verbose_name='作成日時'),
+                ),
+                (
+                    'updated_at',
+                    models.DateTimeField(auto_now=True, verbose_name='更新日時'),
+                ),
+                (
+                    'deleted_at',
+                    models.DateTimeField(blank=True, null=True, verbose_name='削除日時'),
+                ),
                 ('name', models.CharField(max_length=35, verbose_name='イベント名')),
             ],
             options={
@@ -85,10 +166,27 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='PlayerPosition',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='作成日時')),
-                ('updated_at', models.DateTimeField(auto_now=True, verbose_name='更新日時')),
-                ('deleted_at', models.DateTimeField(blank=True, null=True, verbose_name='削除日時')),
+                (
+                    'id',
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
+                (
+                    'created_at',
+                    models.DateTimeField(auto_now_add=True, verbose_name='作成日時'),
+                ),
+                (
+                    'updated_at',
+                    models.DateTimeField(auto_now=True, verbose_name='更新日時'),
+                ),
+                (
+                    'deleted_at',
+                    models.DateTimeField(blank=True, null=True, verbose_name='削除日時'),
+                ),
                 ('number', models.IntegerField(verbose_name='背番号')),
                 ('name', models.CharField(max_length=35, verbose_name='ポジション名')),
                 ('is_front_row', models.BooleanField(verbose_name='フロントロー')),
@@ -101,30 +199,58 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='ScoringMethod',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='作成日時')),
-                ('updated_at', models.DateTimeField(auto_now=True, verbose_name='更新日時')),
-                ('deleted_at', models.DateTimeField(blank=True, null=True, verbose_name='削除日時')),
+                (
+                    'id',
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
+                (
+                    'created_at',
+                    models.DateTimeField(auto_now_add=True, verbose_name='作成日時'),
+                ),
+                (
+                    'updated_at',
+                    models.DateTimeField(auto_now=True, verbose_name='更新日時'),
+                ),
+                (
+                    'deleted_at',
+                    models.DateTimeField(blank=True, null=True, verbose_name='削除日時'),
+                ),
                 ('name', models.CharField(max_length=35, verbose_name='得点手法名')),
                 ('point', models.IntegerField(verbose_name='得点')),
             ],
-            options={
-                'verbose_name_plural': '得点手法',
-                'db_table': 'rugby_scoring_method',
-            },
+            options={'verbose_name_plural': '得点手法', 'db_table': 'rugby_scoring_method'},
         ),
         migrations.CreateModel(
             name='StaffPosition',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='作成日時')),
-                ('updated_at', models.DateTimeField(auto_now=True, verbose_name='更新日時')),
-                ('deleted_at', models.DateTimeField(blank=True, null=True, verbose_name='削除日時')),
+                (
+                    'id',
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name='ID',
+                    ),
+                ),
+                (
+                    'created_at',
+                    models.DateTimeField(auto_now_add=True, verbose_name='作成日時'),
+                ),
+                (
+                    'updated_at',
+                    models.DateTimeField(auto_now=True, verbose_name='更新日時'),
+                ),
+                (
+                    'deleted_at',
+                    models.DateTimeField(blank=True, null=True, verbose_name='削除日時'),
+                ),
                 ('name', models.CharField(max_length=35, verbose_name='役職名')),
             ],
-            options={
-                'verbose_name_plural': '役職',
-                'db_table': 'rugby_staff_position',
-            },
+            options={'verbose_name_plural': '役職', 'db_table': 'rugby_staff_position'},
         ),
     ]
